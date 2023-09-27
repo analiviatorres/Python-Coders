@@ -18,3 +18,4 @@ else:
 print(f'O resultado das duas palavras combinadas é: {destino}')
 print((f'Resultado descriptografado: {resultado_completo_descriptografado}'))
 
+#teste
