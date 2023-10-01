@@ -1,25 +1,29 @@
-nome_origem = input("Digite uma palavra para criptografar: ")
-passe = input("Digite agora uma palavra passe: ")
-destino_criptografado = []
-destino_descriptografado = []
+import csv
 
-if not passe:
-    print("A palavra-passe não pode estar vazia! ")
-else:
-    for i, char in enumerate(nome_origem):
-        n_origem = ord(char)
-        n_passe = ord(passe[i % len(passe)])
-        resultado_criptografado = chr(n_origem ^ n_passe)
-        resultado_descriptografado = chr(ord(resultado_criptografado) ^ n_passe)
+arquivo = open("/home/livia/Área de trabalho/eleicao_acre.csv", "r", encoding="ISO-8859-1")
+lendo_dados = []
 
-    destino_criptografado.append(resultado_criptografado)
+for linha in arquivo:
+    elementos = [e.strip() for e in linha.split(";")]
+    for linha in arquivo:
+            cargo = linha[17]
+            nome_candidato = linha[30]
+            votos = linha[31]
+        
+        # Verifique se o cargo é "Presidente"
+            if cargo == "Presidente":
+            # Atualize a contagem de votos para o candidato
+                if nome_candidato in lendo_dados:
+                    lendo_dados[nome_candidato] += votos
+                else:
+                    lendo_dados[nome_candidato] = votos
 
-    destino_descriptografado.append(resultado_descriptografado)
-    print(resultado_criptografado)
+# Encontre o candidato a presidente com mais votos
+candidato_mais_votado = max(lendo_dados, key=lambda x: votos[x])
+total_votos = lendo_dados[candidato_mais_votado]
 
-    resultado_completo_criptografado = ''.join(destino_criptografado)
-    resultado_completo_descriptografado = ''.join(destino_descriptografado)
+print(f"O candidato a Presidente com mais votos foi: {candidato_mais_votado} com {votos} votos.")
 
+arquivo.close()
 
-    print(f'Resultado criptografado: {resultado_completo_criptografado}')
-    print(f'Resultado descriptografado: {resultado_completo_descriptografado}')
+print(lendo_dados)
