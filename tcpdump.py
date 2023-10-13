@@ -6,7 +6,7 @@ while dado!= b"": #loop que será repetido enquanto dado não for vázio
     ihl = dado[0] & 0xF #lendo o tamanho do cabeçalho 
     tos = dado[1] #verificando o tipo de serviço
     comprimento = int.from_bytes(dado[2:4], byteorder="big") #lendo o tamanho total do pacote, TotalLength
-    identificador = int.from_bytes(dado[4:6], byteorder="big") #lendo os fragmentos do datagram do IP original
+    identificador = int.from_bytes(dado[4:6], byteorder="big") #lendo os fragmentos do datagrama do IP original
     flags = (dado[6] >> 5) & 0x7 #o operador AND máscara os 3 bits mais significado e descarta os outros bits, o 0x7 mantém os 3 bits mais significativo e redefine os outros bits para zero.
     offset = ((dado[6] & 0x1F) << 8 ) + dado[7] #coletando os dados do fragmento atual do pacote, "dado[6] & 0x1F" mascara os 6 bits mais significativos"
     ttl = dado[8] #coletando o tempo de vida do pacote
@@ -26,22 +26,43 @@ def timestamp(capture):
         
     timestamp = int.from_bytes(timestamp_bytes, byteorder="big")
     return timestamp
-    
-    
 
-tamPacote = capture.read(4) #lendo o tamanho total do pacote
+def main():
+    packetList = []  #lista para armazenar informações de cada pacote
 
-#lendo o timestamp do inicio do pacote
-while True:
-    inicioTamp = timestamp(capture)
-    if inicioTamp is None:
-        break
+    capture = open("/home/livia/capture.cap", "rb")  #abrindo o arquivo de captura
 
-    if not tamPacote:
-        break
+    while True: #iniciando a leitura dos pacotes com o loop
+        inicioTamp = timestamp(capture) #lendo o timestamp do inicio do pacote e atribuindo a "inicioTamp"
 
-totalPac = int.from_bytes(tamPacote, byteorder="big") #convertendo o pacote de bytes para inteiros e armazenando em totalpac
-print(f"O Timestamp do início é: {inicioTamp}")
-endTime = inicioTamp + totalPac
-print(f"O Timestamp de Término é: {endTime}")
-capture.close()
+        if inicioTamp is None: #caso não haja mais timesTamp a serem lidos, sairemos do loop com o break
+            break
+
+        deltaTime = capture.read(4)  #lendo o campo "Delta Time" que está nós próximos 4 bytes do pacote
+
+        if not deltaTime: #caso o delta time seja vazio, paramos com o break
+            break
+
+        deltaBytes = int.from_bytes(deltaTime, byteorder="big")  # Converte o campo "Delta Time" de bytes para inteiros
+
+        endTime = inicioTamp + deltaBytes #somando o inicio e o fim da captura do pacote
+
+        packet_info = { #iniciando um dicionário que contém as chaves, inicioTamp, delta_time e endTime e relacionando as respectivas variáveis
+                "inicioTamp": inicioTamp,
+                "delta_time": deltaBytes,
+                "endTime": endTime
+            }
+
+        packetList.append(packet_info) #adicionando as informações do pacote a lista packetList.
+
+    for i, packet in enumerate(packetList): #percorrente a lista e atribuindo-a ao dicionário packet, o enumerate obtém o índice de cada dicionário.
+        print(f"Pacote {i + 1}:") #aqui vamos imprimir o respectivo número do pacote
+        print(f"Início da captura: {packet['inicioTamp']}") #imprimindo o tempo do inicio do pacote
+        print(f"Término da captura: {packet['endTime']}")
+        print("\n")
+
+    capture.close()  # Fecha o arquivo de captura
+
+if __name__ == "__main__": #para que o código seja executado como script e não um módulo, usamos essa construção IF
+    #o trecho main, está sendo usado como uma função que contém o código principal. 
+    main()

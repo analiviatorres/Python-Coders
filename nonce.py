@@ -1,11 +1,14 @@
 import time
-def findNonce(dataToHash, bitsToBeZero):
-    nonce = 6
-    tempoInicial = tempoAtual()
-    #tempoInicial = time.perf_counter()
+def findNonce(dataToHash, bitsToBeZero): #o dataToHash será usado para calcular o hash e o bitsToBeZero será os bits iniciais
 
-    while True:
-        dados = nonce.to_bytes(4, 'big') + dataToHash
+    #bitsToBeZero = input("Digite uma quantidade de bits em zero")
+    nonce = 4 #iniciando o nonce com determinado valor
+    tempoInicial = tempoAtual() #essa variável tempoInicial será usada mais a frente para calcular o tempo de execução do loop
+
+    bitsToBeZero = int(bitsToBeZero)
+
+    while True: #inicio do loop
+        dados = nonce.to_bytes(4, 'big') + dataToHash.encode('utf-8')#aqui iremos converter o valor inicial do nonce em 4 bytes e concatenar com os dados originais do dataToHash, formando um novo conjunto de dados
         hash_resultante = calcularHash(dados)
         numZeros_iniciais = contarZeros(hash_resultante)
 
@@ -18,7 +21,6 @@ def findNonce(dataToHash, bitsToBeZero):
 
 
 def calcularHash(dados):
-    # Importe funções auxiliares para operações bitwise
     def rotr(x, n, b):
         return ((x >> n) | (x << (b - n))) & 0xFFFFFFFF
 
@@ -85,9 +87,11 @@ def contarZeros(hash_resultante):
 def tempoAtual():
     return time.perf_counter()
 
-bitsToBeZero = 8
-dataToHash = b'bytes aqui'
+bitsToBeZero = int(input("Digite a quantidade de bits iniciais em zero: "))
+dataToHash = input("Digite o texto a validar: ")
 nonceEncontrado, tempoGasto = findNonce(dataToHash, bitsToBeZero)
-
 print(f"Nonce encontrado: {nonceEncontrado}")
 print(f"Tempo levado: {tempoGasto} segundos")
+print(contarZeros)
+
+
