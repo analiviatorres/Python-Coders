@@ -63,6 +63,6 @@ def main():
 
     capture.close()  # Fecha o arquivo de captura
 
-if __name__ == "__main__": #para que o código seja executado como script e não um módulo, usamos essa construção IF
+if __name__ == "__main__": #para que o código seja executado como script e não um módulo, usei essa construção IF
     #o trecho main, está sendo usado como uma função que contém o código principal. 
     main()

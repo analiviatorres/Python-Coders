@@ -19,7 +19,7 @@ def findNonce(dataToHash, bitsToBeZero): #o dataToHash será usado para calcular
         nonce += 1
         
 
-
+#o código abaixo vai calcular os dados do hash
 def calcularHash(dados):
     def rotr(x, n, b):
         return ((x >> n) | (x << (b - n))) & 0xFFFFFFFF
@@ -74,16 +74,17 @@ def calcularHash(dados):
 
 
 def contarZeros(hash_resultante):
-    num_zeros = 0
-    for byte in hash_resultante:
+    num_zeros = 0 #a variável num_zeros está sendo usada para manter a contagem de número dos bits em zero
+    for byte in hash_resultante: #loop que vai itera cada byte condtido em hash_resultante
         for i in range(8):
-            if (byte >> (7 - i)) & 1 == 0:
-                num_zeros += 1
+            if (byte >> (7 - i)) & 1 == 0: #verificando o bit atual no byte utilizando a função bitwise
+                num_zeros += 1 #caso o bit atual seja zero será incrementado 1
             else:
                 return num_zeros
-    return num_zeros
+    return num_zeros #caso o loop termine em um bit não-zero, a função vai retornar o valor total de num_zeros.
 
 
+#a função tempoAtual está sendo usada para retornar o valor atual do tempo em segundos, que é obtido em time.perf_counter()
 def tempoAtual():
     return time.perf_counter()
 
