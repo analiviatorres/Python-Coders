@@ -7,11 +7,8 @@ app = Flask(__name__) # a variável "app" é o padrão usado nesse tipo de códi
 
 token = "" #token do bot do telegram.
 api_url = f"https://api.telegram.org/bot{token}" #endereço da API do telegram.
-<<<<<<< HEAD:bot_5_funcionalidades.py
 url_webhook = "" #endereço que o aplicativo do ngrok disponibiliza após ser executado no computador(obs: esse endereço muda todas as vezes que programa é executado).
-=======
-url_webhook = "hp" #endereço que o aplicativo do ngrok disponibiliza após ser executado no computador(obs: esse endereço muda todas as vezes que programa é executado.).
->>>>>>> d27a6fccfdbdddb12f5385a566488a6268fd2213:bot_v3.py
+url_webhook = "" #endereço que o aplicativo do ngrok disponibiliza após ser executado no computador(obs: esse endereço muda todas as vezes que programa é executado.).
 
 # Configuração do webhook que é executada após o inicio do aplicativo do flask, "app".
 def telegram_webhook(): #função que vai executar o webhook
