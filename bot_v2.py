@@ -5,9 +5,9 @@ import time
 #usando o flask para criar o webhook do bot do telegram.
 app = Flask(__name__) # a variável "app" é o padrão usado nesse tipo de código.
 
-token = "6461998796:AAFLpQNPx4rFTmOFs-PdJk2O_GqkQzxnWAY" #token do bot do telegram.
+token = "" #token do bot do telegram.
 api_url = f"https://api.telegram.org/bot{token}" #endereçoi da API do telegram.
-url_webhook = "https://999f-187-19-156-117.ngrok-free.app" #endereço que o aplicativo do ngrok disponibiliza após ser executado no computador(obs: esse endereço muda todas as vezes que programa é executado.).
+url_webhook = "" #endereço que o aplicativo do ngrok disponibiliza após ser executado no computador(obs: esse endereço muda todas as vezes que programa é executado.).
 
 # Configuração do webhook que é executada após o inicio do aplicativo do flask, "app".
 def telegram_webhook(): #função que vai executar o webhook
