@@ -108,9 +108,9 @@ def get_image():
         return f"Erro: {e}"
 
 #==========================================================================================================================================
-#Rotas do servidor local, usado para interagir com o cliente.
+# Lista que será adicionadoo nome dos clientes conectados.
 usuarios_identificados = []
-
+#Rotas do servidor local, usado para interagir com o cliente.
 @app.route('/enviar_mensagem', methods=['POST'])
 def receber_mensagem():
     mensagem = request.json['mensagem']
@@ -129,17 +129,15 @@ def enviar_resposta_cliente():
 
 def enviar_resposta_cliente(mensagem):
     if mensagem.startswith('!q'):
-        # Se a mensagem do cliente começar com "!q", encerrar o chat
+        # Se a mensagem do cliente começar com "!q", o chat será encerrado.
         print('Chat encerrado pelo cliente.')
     elif mensagem.startswith('nome:'):
-        # Se a mensagem do cliente começar com "nome:", identificar o usuário pelo nome
+        # Se a mensagem do cliente começar com "nome:", o usuário será identificado pelo nome.
         nome_usuario = mensagem.split('nome:')[1].strip()
         usuarios_identificados.append(nome_usuario)
         print(f'Usuário identificado: {nome_usuario}')
     else:
-        # Adicione aqui a lógica para responder a outras mensagens
         resposta = f'Resposta para a mensagem: {mensagem}'
-        # Agora, você pode enviar a resposta de volta para o cliente usando o Flask ou outro método
 
 
 #==========================================================================================================================================
